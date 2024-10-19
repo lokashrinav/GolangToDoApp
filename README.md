@@ -63,4 +63,3 @@ The program consists of the following functions:
 ## License
 
 This project is free to use and distribute. Feel free to modify it to suit your needs.
-```
