@@ -1,6 +1,3 @@
-Here is the conversion of the provided text to Markdown format:
-
-```markdown
 # Task Management Program in Go
 
 This is a simple command-line task management program written in Go. It allows users to add, remove, list, and mark tasks as complete through an interactive menu. The program stores tasks in an in-memory list and provides basic task operations.
