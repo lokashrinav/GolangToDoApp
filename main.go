@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"encoding/json"
+	"os"
 )
 
 type Task struct {
-	finished bool
-	toDo string
+	Finished bool `json:"Finished"`
+	ToDo string `json:"ToDo"`
 }
 
 var tasks[] Task
@@ -40,7 +42,14 @@ func addTask() {
 	var taskName string
 	fmt.Println("Input Name: ")
 	fmt.Scan(&taskName)
-	tasks = append(tasks, Task{finished: false, toDo: taskName})
+
+	newTask := Task{Finished: false, ToDo: taskName}
+
+	tasks = append(tasks, newTask)
+
+	newJsonTask, _ := json.Marshal(tasks)
+
+	os.WriteFile("data.json", newJsonTask, 0644)
 }
 
 func removeTask() {
@@ -52,7 +61,7 @@ func removeTask() {
 
 func listTask() {
 	for i, task := range tasks {
-		fmt.Println(i, task.toDo)
+		fmt.Println(i, task.ToDo)
 	}
 }
 
@@ -60,5 +69,5 @@ func completeTask() {
 	var index int
 	fmt.Printf("What Index?: ")
 	fmt.Scan(&index)
-	tasks[index].finished = true
+	tasks[index].Finished = true
 }
