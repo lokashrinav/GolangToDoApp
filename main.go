@@ -45,11 +45,25 @@ func addTask() {
 
 	newTask := Task{Finished: false, ToDo: taskName}
 
+	data, _ := os.ReadFile("data.json")
+
+	var tasks_temp[] Task
+
+	json.Unmarshal(data, &tasks_temp)
+
+	tasks_temp = append(tasks_temp, newTask)
+
+	newJsonTask, _ := json.Marshal(tasks_temp)
+
+	os.WriteFile("data.json", newJsonTask, 0644)
+
+	/*newTask := Task{Finished: false, ToDo: taskName}
+
 	tasks = append(tasks, newTask)
 
 	newJsonTask, _ := json.Marshal(tasks)
 
-	os.WriteFile("data.json", newJsonTask, 0644)
+	os.WriteFile("data.json", newJsonTask, 0644)*/
 }
 
 func removeTask() {
@@ -60,7 +74,14 @@ func removeTask() {
 }
 
 func listTask() {
-	for i, task := range tasks {
+
+	data, _ := os.ReadFile("data.json")
+
+	var tasks_temp[] Task
+
+	json.Unmarshal(data, &tasks_temp)
+	
+	for i, task := range tasks_temp {
 		fmt.Println(i, task.ToDo)
 	}
 }
@@ -69,5 +90,15 @@ func completeTask() {
 	var index int
 	fmt.Printf("What Index?: ")
 	fmt.Scan(&index)
-	tasks[index].Finished = true
+	data, _ := os.ReadFile("data.json")
+
+	var tasks_temp[] Task
+
+	json.Unmarshal(data, &tasks_temp)
+
+	tasks_temp[index].Finished = true
+
+	newJsonTask, _ := json.Marshal(tasks_temp)
+
+	os.WriteFile("data.json", newJsonTask, 0644)
 }
