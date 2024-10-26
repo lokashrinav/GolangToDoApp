@@ -43,16 +43,31 @@ func addTask() {
 
 	newTask := Task{Finished: false, ToDo: taskName}
 
-	data, _ := os.ReadFile("data.json")
+	data, err := os.ReadFile("data.json")
+
+	if err != nil {
+		fmt.Println("Error Reading File:", err)
+		return
+	}
 
 	var tasks_temp[] Task
 
-	json.Unmarshal(data, &tasks_temp)
+	err2 := json.Unmarshal(data, &tasks_temp)
+
+	if err2 != nil {
+		fmt.Println("Error Marshalling tasks_temp:", err2)
+		return
+	}
 
 	tasks_temp = append(tasks_temp, newTask)
 
-	newJsonTask, _ := json.Marshal(tasks_temp)
+	newJsonTask, err3 := json.Marshal(tasks_temp)
 
+	if err3 != nil {
+		fmt.Println("Error Marshalling tasks_temp:", err3)
+		return
+	}
+	
 	os.WriteFile("data.json", newJsonTask, 0644)
 
 	/*newTask := Task{Finished: false, ToDo: taskName}
@@ -76,7 +91,12 @@ func removeTask() {
 
 	tasks_temp = append(tasks_temp[:index], tasks_temp[index + 1:]...)
 
-	newJsonTask, _ := json.Marshal(tasks_temp)
+	newJsonTask, err := json.Marshal(tasks_temp)
+
+	if err != nil {
+		fmt.Println("Error Marshalling tasks_temp:", err)
+		return
+	}
 
 	os.WriteFile("data.json", newJsonTask, 0644)
 
@@ -88,8 +108,13 @@ func listTask() {
 
 	var tasks_temp[] Task
 
-	json.Unmarshal(data, &tasks_temp)
-	
+	err := json.Unmarshal(data, &tasks_temp)
+
+	if err != nil {
+		fmt.Println("Error Unmarshalling tasks_temp:", err)
+		return
+	}
+
 	for i, task := range tasks_temp {
 		fmt.Println(i, task.ToDo)
 	}
@@ -99,15 +124,30 @@ func completeTask() {
 	var index int
 	fmt.Printf("What Index?: ")
 	fmt.Scan(&index)
-	data, _ := os.ReadFile("data.json")
+	data, err := os.ReadFile("data.json")
+
+	if err != nil {
+		fmt.Println("Error Reading File:", err)
+		return
+	}
 
 	var tasks_temp[] Task
 
-	json.Unmarshal(data, &tasks_temp)
+	err2 := json.Unmarshal(data, &tasks_temp)
+
+	if err2 != nil {
+		fmt.Println("Error Unmarshalling tasks_temp:", err2)
+		return
+	}
 
 	tasks_temp[index].Finished = true
 
-	newJsonTask, _ := json.Marshal(tasks_temp)
+	newJsonTask, err3 := json.Marshal(tasks_temp)
+
+	if err3 != nil {
+		fmt.Println("Error Marshalling tasks_temp:", err3)
+		return
+	}
 
 	os.WriteFile("data.json", newJsonTask, 0644)
 }
