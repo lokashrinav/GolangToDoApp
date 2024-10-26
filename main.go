@@ -11,8 +11,6 @@ type Task struct {
 	ToDo string `json:"ToDo"`
 }
 
-var tasks[] Task
-
 func main() {
 	var name string;
 	for {
@@ -70,7 +68,18 @@ func removeTask() {
 	var index int
 	fmt.Println("Which index to remove?")
 	fmt.Scan(&index)
-	tasks = append(tasks[:index], tasks[index + 1:]...)
+	data, _ := os.ReadFile("data.json")
+
+	var tasks_temp[] Task
+
+	json.Unmarshal(data, &tasks_temp)
+
+	tasks_temp = append(tasks_temp[:index], tasks_temp[index + 1:]...)
+
+	newJsonTask, _ := json.Marshal(tasks_temp)
+
+	os.WriteFile("data.json", newJsonTask, 0644)
+
 }
 
 func listTask() {
