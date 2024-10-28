@@ -89,6 +89,11 @@ func removeTask() {
 
 	json.Unmarshal(data, &tasks_temp)
 
+	if(index > len(tasks_temp) || index < 0) {
+		fmt.Println("Make sure to input correct index")
+		return
+	}
+
 	tasks_temp = append(tasks_temp[:index], tasks_temp[index + 1:]...)
 
 	newJsonTask, err := json.Marshal(tasks_temp)
@@ -137,6 +142,11 @@ func completeTask() {
 
 	if err2 != nil {
 		fmt.Println("Error Unmarshalling tasks_temp:", err2)
+		return
+	}
+
+	if(index > len(tasks_temp) || index < 0) {
+		fmt.Println("Make sure to input correct index")
 		return
 	}
 
